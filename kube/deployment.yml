@@ -20,4 +20,17 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
           ports:
-            - containerPort: 8080
+            - name: app-port
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: app-port
+            periodSeconds: 5
+            failureThreshold: 1
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: app-port
+            failureThreshold: 6
+            periodSeconds: 5
