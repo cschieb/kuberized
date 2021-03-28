@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-kuberized
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: containerized-app
+  template:
+    metadata:
+      labels:
+        app: containerized-app
+    spec:
+      containers:
+        - name: containerized-app
+          image: cschieb/spring-boot-containerized:latest
+          imagePullPolicy: Never
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+          ports:
+            - containerPort: 8080
